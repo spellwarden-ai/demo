@@ -1,0 +1,39 @@
+{
+  "protocolVersion": "0.3.0",
+  "name": "Legacy Router",
+  "description": "Demo fixture (Spellwarden live demo). The old order router, still answering at the 0.3 path.",
+  "url": "https://legacy-router.example.com/a2a",
+  "preferredTransport": "JSONRPC",
+  "version": "0.9.0",
+  "capabilities": {
+    "streaming": false
+  },
+  "securitySchemes": {
+    "key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-Api-Key"
+    }
+  },
+  "security": [
+    {
+      "key": []
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "route-order",
+      "name": "Route an order",
+      "description": "Chooses the depot for one order.",
+      "tags": [
+        "orders"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Report Builder",
+  "description": "Demo fixture (Spellwarden live demo). Builds weekly delivery reports.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "https://reports.example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Example Freight",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false
+  },
+  "securitySchemes": {
+    "key": {
+      "apiKeySecurityScheme": {
+        "location": "query",
+        "name": "api_key"
+      }
+    }
+  },
+  "securityRequirements": [
+    {
+      "schemes": {
+        "key": {
+          "list": []
+        }
+      }
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "weekly-report",
+      "name": "Weekly report",
+      "description": "Builds the delivery report of one week.",
+      "tags": [
+        "reports"
+      ]
+    }
+  ]
+}

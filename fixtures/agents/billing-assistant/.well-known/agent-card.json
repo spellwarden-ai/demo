@@ -1,0 +1,62 @@
+{
+  "name": "Billing Assistant",
+  "description": "Demo fixture (Spellwarden live demo). Answers questions about freight invoices.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "http://billing.example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Example Freight",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false
+  },
+  "securitySchemes": {
+    "oauth": {
+      "oauth2SecurityScheme": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "tokenUrl": "https://auth.example.com/token",
+            "scopes": {
+              "invoices.read": "Read invoices"
+            },
+            "pkceRequired": true
+          }
+        }
+      }
+    }
+  },
+  "securityRequirements": [
+    {
+      "schemes": {
+        "oauth": {
+          "list": [
+            "invoices.read"
+          ]
+        }
+      }
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "invoice-question",
+      "name": "Invoice question",
+      "description": "Answers one question about an invoice.",
+      "tags": [
+        "billing"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "Data Export",
+  "description": "Demo fixture (Spellwarden live demo). Exports shipment data for partners.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "https://demo-user:not-a-real-password@export.example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Example Freight",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false
+  },
+  "securitySchemes": {
+    "oauth": {
+      "oauth2SecurityScheme": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "tokenUrl": "https://auth.example.com/token",
+            "scopes": {
+              "exports.read": "Read exports"
+            },
+            "pkceRequired": true
+          }
+        }
+      }
+    }
+  },
+  "securityRequirements": [
+    {
+      "schemes": {
+        "oauth": {
+          "list": [
+            "exports.read"
+          ]
+        }
+      }
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "export-shipments",
+      "name": "Export shipments",
+      "description": "Exports the shipments of one partner.",
+      "tags": [
+        "export"
+      ]
+    }
+  ]
+}

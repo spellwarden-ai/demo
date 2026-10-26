@@ -1,0 +1,93 @@
+{
+  "name": "Order Router",
+  "description": "Demo fixture (Spellwarden live demo). Routes freight orders to the right depot.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "https://orders.example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Example Freight",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false
+  },
+  "securitySchemes": {
+    "oauth": {
+      "oauth2SecurityScheme": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "tokenUrl": "https://auth.example.com/token",
+            "scopes": {
+              "orders.read": "Read orders",
+              "orders.route": "Route orders"
+            },
+            "pkceRequired": true
+          }
+        }
+      }
+    }
+  },
+  "securityRequirements": [
+    {
+      "schemes": {
+        "oauth": {
+          "list": [
+            "orders.read"
+          ]
+        }
+      }
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "route-order",
+      "name": "Route an order",
+      "description": "Chooses the depot for one order.",
+      "tags": [
+        "orders"
+      ],
+      "securityRequirements": [
+        {
+          "schemes": {
+            "oauth": {
+              "list": [
+                "orders.route"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "order-status",
+      "name": "Order status",
+      "description": "Reports where one order is.",
+      "tags": [
+        "orders"
+      ],
+      "securityRequirements": [
+        {
+          "schemes": {
+            "oauth": {
+              "list": [
+                "orders.read"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

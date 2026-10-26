@@ -1,0 +1,61 @@
+{
+  "name": "CRM Sync",
+  "description": "Demo fixture (Spellwarden live demo). Keeps customer records in step with the CRM.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "https://crm.example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Example Freight",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false
+  },
+  "securitySchemes": {
+    "oauth": {
+      "oauth2SecurityScheme": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "tokenUrl": "https://auth.example.com/token",
+            "scopes": {
+              "customers.write": "Change customer records"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityRequirements": [
+    {
+      "schemes": {
+        "oauth": {
+          "list": [
+            "customers.write"
+          ]
+        }
+      }
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "sync-customer",
+      "name": "Sync a customer",
+      "description": "Copies one customer record to the CRM.",
+      "tags": [
+        "crm"
+      ]
+    }
+  ]
+}

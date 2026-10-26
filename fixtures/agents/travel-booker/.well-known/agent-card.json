@@ -1,0 +1,60 @@
+{
+  "name": "Travel Booker",
+  "description": "Demo fixture (Spellwarden live demo). Books travel for drivers between depots.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "https://travel.example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Example Freight",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false
+  },
+  "securitySchemes": {
+    "oauth": {
+      "oauth2SecurityScheme": {
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "scopes": {
+              "trips.write": "Book trips"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityRequirements": [
+    {
+      "schemes": {
+        "oauth": {
+          "list": [
+            "trips.write"
+          ]
+        }
+      }
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "book-trip",
+      "name": "Book a trip",
+      "description": "Books one trip for a driver.",
+      "tags": [
+        "travel"
+      ]
+    }
+  ]
+}

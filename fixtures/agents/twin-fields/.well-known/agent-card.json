@@ -1,0 +1,78 @@
+{
+  "name": "Twin Fields",
+  "description": "Demo fixture (Spellwarden live demo). Plans loading at the warehouse docks.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "https://docks.example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Example Freight",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false
+  },
+  "securitySchemes": {
+    "oauth": {
+      "oauth2SecurityScheme": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "tokenUrl": "https://auth.example.com/token",
+            "scopes": {
+              "docks.write": "Plan loading"
+            },
+            "pkceRequired": true
+          }
+        }
+      }
+    }
+  },
+  "security_schemes": {
+    "oauth": {
+      "oauth2SecurityScheme": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "tokenUrl": "https://auth.example.com/token",
+            "scopes": {
+              "docks.write": "Plan loading"
+            },
+            "pkceRequired": true
+          }
+        }
+      }
+    }
+  },
+  "securityRequirements": [
+    {
+      "schemes": {
+        "oauth": {
+          "list": [
+            "docks.write"
+          ]
+        }
+      }
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "plan-loading",
+      "name": "Plan loading",
+      "description": "Plans the loading of one truck.",
+      "tags": [
+        "docks"
+      ]
+    }
+  ]
+}

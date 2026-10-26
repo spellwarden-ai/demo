@@ -1,0 +1,35 @@
+{
+  "name": "Public Lookup",
+  "description": "Demo fixture (Spellwarden live demo). Looks up public depot opening hours.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "https://lookup.example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Example Freight",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false
+  },
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "opening-hours",
+      "name": "Opening hours",
+      "description": "Gives the opening hours of one depot.",
+      "tags": [
+        "depots"
+      ]
+    }
+  ]
+}
