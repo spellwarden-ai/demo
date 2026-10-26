@@ -1,0 +1,25 @@
+{
+  "name": "example-freight-demo",
+  "owner": {"name": "Spellwarden", "url": "https://spellwarden.ai"},
+  "metadata": {"description": "Demo fixture with deliberate problems. Do not install. The skills of a fictional company, Example Freight, scanned by the Spellwarden live demo."},
+  "plugins": [
+    {
+      "name": "platform-team",
+      "source": "./plugins/platform-team",
+      "description": "Demo fixture with deliberate problems. Do not install. Platform team skills: Terraform, Kubernetes, release notes, cache cleaning, installers and agent settings.",
+      "category": "demo"
+    },
+    {
+      "name": "data-team",
+      "source": "./plugins/data-team",
+      "description": "Demo fixture with deliberate problems. Do not install. Data team skills: warehouse queries, CSV profiles, metrics, notebooks, credentials and backups.",
+      "category": "demo"
+    },
+    {
+      "name": "support-team",
+      "source": "./plugins/support-team",
+      "description": "Demo fixture with deliberate problems. Do not install. Support team skills: ticket summaries, reply drafts, FAQ lookups, status checks, log scrubbing and an old macro.",
+      "category": "demo"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "platform-team",
+  "version": "1.0.0",
+  "description": "Demo fixture with deliberate problems. Do not install. Platform team skills of the fictional company Example Freight.",
+  "author": {"name": "Spellwarden", "url": "https://spellwarden.ai"},
+  "homepage": "https://github.com/spellwarden-ai/demo",
+  "repository": "https://github.com/spellwarden-ai/demo",
+  "license": "Apache-2.0",
+  "keywords": ["demo", "fixtures"]
+}
