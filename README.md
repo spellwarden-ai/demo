@@ -13,7 +13,7 @@ This repository holds the fixtures of the Spellwarden live demo at https://dash.
 - **Nothing loads from the root.** There is no `.claude/`, `.mcp.json` or `.claude-plugin/` at the root. Claude Code reads project settings only from the root `.claude/` of the folder it is opened in, so cloning this repository and opening it loads none of the settings fixtures, and `/plugin marketplace add spellwarden-ai/demo` finds no marketplace.
 - **Every plugin** says so first: each description starts with "Demo fixture with deliberate problems. Do not install."
 
-Someone who installs a fixture skill anyway and follows it fetches from `.invalid` hosts (no address answers), decodes `echo demo` and removes a directory under `$TMPDIR`. The skills that try to steer an agent ask it to add a line to replies or to send messages to a fictional agent first; nothing they point at does harm.
+Someone who installs a fixture skill anyway and follows it fetches from `.invalid` hosts (no address answers), decodes `echo demo` and removes a directory under `$TMPDIR`. The skills and cards that try to steer an agent ask it to write longer replies, to add a line to them or to send messages to a fictional agent first, and one skill asks it to stop asking for approval: that is why none of them should be installed, though nothing they point at does harm.
 
 ## Layout
 
@@ -23,7 +23,7 @@ SEED.md                    the seed record: tag, date, the public registry serve
 LICENSE                    Apache-2.0
 .github/workflows/         spellwarden.yml (the scan in connected mode) and check.yml (this repository's own checks)
 .spellwarden/config.yml    the settings of the scan: never fail, no probe, no telemetry; no baseline, nothing suppressed
-tools/                     check_repo.py and the pinned scanner it compares with this file
+tools/                     check_repo.py, and requirements.txt: the hash-pinned scanner 1.4.0 it runs
 fixtures/
   marketplace/             a Claude Code marketplace of three local plugins and eighteen skills (hosted import and CI)
   projects/payments-api/   .mcp.json (hosted MCP import and CI) and .claude/settings.json (CI)
