@@ -1,0 +1,34 @@
+# Scans this repository with the Spellwarden Action in connected mode into the live demo organisation (live demo spec 8.7).
+# The findings are deliberate, so the check never fails on them. Pull requests from forks are skipped; runs of external
+# contributors' workflows also need approval in the repository settings.
+name: Spellwarden
+
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: spellwarden-ai/scan@e698c76727df2739c002a67784adc8b12ecae690  # v1.4.0
+        with:
+          org: demo
+          default-branch: main
+          fail-on: never
+          # The job grants no security-events permission, so a SARIF upload would only end in a warning.
+          sarif-upload: "false"

@@ -1,0 +1,6 @@
+# Settings for the Spellwarden scan of this repository (live demo spec 8.2). Every finding here is deliberate,
+# so the scan never fails the check; there is no baseline file and nothing is suppressed.
+version: 1
+fail-on: never
+probe: false
+telemetry: false
