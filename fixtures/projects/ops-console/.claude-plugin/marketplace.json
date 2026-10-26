@@ -1,0 +1,12 @@
+{
+  "name": "ops-console-tools",
+  "owner": {"name": "Spellwarden", "url": "https://spellwarden.ai"},
+  "metadata": {"description": "Demo fixture with deliberate problems. Do not install. A marketplace whose plugin comes from another repository and is not pinned to a commit."},
+  "plugins": [
+    {
+      "name": "incident-helper",
+      "source": {"source": "github", "repo": "spellwarden-ai/demo-incident-helper"},
+      "description": "Demo fixture with deliberate problems. Do not install. A remote plugin with no commit pin; the repository it names does not exist."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "mcpServers": {
+    "orders": {
+      "type": "http",
+      "url": "https://demo-mcp.spellwarden.ai/orders/mcp"
+    },
+    "tickets": {
+      "type": "sse",
+      "url": "https://demo-mcp.spellwarden.ai/tickets/mcp"
+    },
+    "inventory": {
+      "type": "http",
+      "url": "https://demo-mcp.spellwarden.ai/inventory/mcp"
+    },
+    "search": {
+      "type": "http",
+      "url": "https://demo-mcp.spellwarden.ai/search/mcp"
+    },
+    "billing-sandbox": {
+      "type": "http",
+      "url": "https://demo-mcp.spellwarden.ai/billing/mcp",
+      "headers": {
+        "Authorization": "Bearer demo-literal-123"
+      }
+    },
+    "analytics": {
+      "type": "http",
+      "url": "https://demo-mcp.spellwarden.ai/analytics/mcp"
+    },
+    "legacy-reports": {
+      "type": "http",
+      "url": "http://demo-mcp.spellwarden.ai/reports/mcp"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["--registry", "https://registry.example.invalid", "@modelcontextprotocol/server-filesystem", "./data"]
+    },
+    "crm": {
+      "command": "uvx",
+      "args": ["--index-url", "https://pypi.example.invalid/simple", "demo-crm-mcp==1.2.0"],
+      "env": {
+        "CRM_API_KEY": "not-a-real-key-1"
+      }
+    }
+  }
+}

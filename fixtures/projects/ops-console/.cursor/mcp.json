@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "depot-cameras": {
+      "url": "https://203.0.113.20/mcp"
+    },
+    "weather": {
+      "command": "uvx",
+      "args": ["--index-url", "https://pypi.example.invalid/simple", "demo-weather-mcp==0.4.2"]
+    }
+  }
+}

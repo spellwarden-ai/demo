@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "fleet-status": {
+      "type": "http",
+      "url": "https://203.0.113.10/mcp"
+    },
+    "route-planner": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["--index-url", "https://pypi.example.invalid/simple", "demo-route-planner-mcp==2.0.1"]
+    }
+  }
+}
