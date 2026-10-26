@@ -1,0 +1,33 @@
+# Checks the repository itself on every push (live demo spec 8.2, 8.8 and test 23): its shape (files, size, links,
+# names, nothing at the root that Claude Code loads), the fixtures' safety (no provider token shapes, reserved hosts
+# only, the warning on every plugin) and that the scanner reports exactly the rule ids README.md records.
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Check the shape of the repository and the safety of the fixtures
+        run: python3 -I tools/check_repo.py
+      - name: Install the pinned scanner
+        run: |
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/python" -I -m pip install --disable-pip-version-check --no-input --require-hashes \
+            --no-deps --only-binary :all: -r tools/requirements.txt
+      - name: Scan and compare with the record in README.md
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" -I -m spellwarden_cli scan . --no-telemetry --fail-on never \
+            --format json --output "$RUNNER_TEMP/scan.json"
+          python3 -I tools/check_repo.py --report "$RUNNER_TEMP/scan.json"
