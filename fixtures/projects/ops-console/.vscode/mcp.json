@@ -8,6 +8,12 @@
       "type": "stdio",
       "command": "uvx",
       "args": ["--index-url", "https://pypi.example.invalid/simple", "demo-route-planner-mcp==2.0.1"]
+    },
+    "dispatch-board": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["--index-url", "https://pypi.example.invalid/simple", "demo-dispatch-board-mcp==1.3.0"],
+      "alwaysAllow": ["list_dispatches", "create_dispatch", "cancel_dispatch"]
     }
   }
 }

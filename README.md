@@ -2,7 +2,7 @@
 
 This repository holds the fixtures of the Spellwarden live demo at https://dash.spellwarden.ai/live-demo: agent skills, MCP client configurations, Claude Code settings and A2A agent cards of a fictional freight company, Example Freight. Some are clean and some have problems put there on purpose. The demo organisation imports the skills and the MCP configuration from this repository, and this repository's workflow scans it in connected mode into that organisation, so the demo shows what Spellwarden finds and how a team works through it.
 
-**Every problem in this repository is deliberate and inert. Do not install these skills or plugins, do not add these marketplaces, and do not open any directory under `fixtures/projects/` as a project in Claude Code, VS Code or Cursor.**
+**Every problem in this repository is deliberate and inert. Do not install these skills or plugins, do not add these marketplaces, and do not open any directory under `fixtures/projects/` or `workspaces/` as a project in Claude Code, VS Code or Cursor.**
 
 ## Why it is safe to clone
 
@@ -23,21 +23,23 @@ SEED.md                    the seed record: tag, date, the public registry serve
 LICENSE                    Apache-2.0
 .github/workflows/         spellwarden.yml (the scan in connected mode) and check.yml (this repository's own checks)
 .spellwarden/config.yml    the settings of the scan: never fail, no probe, no telemetry; no baseline, nothing suppressed
-tools/                     check_repo.py, and requirements.txt: the hash-pinned scanner 1.4.0 it runs
+tools/                     check_repo.py, and requirements.txt: the hash-pinned scanner 1.8.1 it runs
 fixtures/
-  marketplace/             a Claude Code marketplace of three local plugins and eighteen skills (hosted import and CI)
+  marketplace/             a Claude Code marketplace of three local plugins and twenty-three skills (hosted import and CI)
   projects/payments-api/   .mcp.json (hosted MCP import and CI) and .claude/settings.json (CI)
   projects/ops-console/    .vscode/mcp.json, .cursor/mcp.json and a second marketplace with a remote plugin (CI)
   agents/                  eleven A2A agent cards (CI)
+workspaces/
+  cluster-ops/             .vscode/mcp.json: a configuration a rule leaves quiet under a `fixtures` directory (CI)
 ```
 
 ## The fixtures and the rule ids recorded for them
 
-The rule ids below are what Spellwarden's scan engine 1.4.0, the version the hosted service runs, reported for each fixture when this content was built; they were recorded from the engine's output, not from intentions. Before a snapshot of the demo is taken, the seed check compares the demo organisation's findings with these lines (the skill rows and the two rows of the repository scan); on every push, this repository's Check workflow runs the scanner again and compares its report with every row.
+The rule ids below are what Spellwarden's scan engine 1.8.1, the version the hosted service runs, reported for each fixture at `seed-2` (the fixtures of `seed-1` were recorded with 1.4.0 and give the same rule ids on 1.8.1); they were recorded from the engine's output, not from intentions. Before a snapshot of the demo is taken, the seed check compares the demo organisation's findings with these lines (the skill rows and the two rows of the repository scan); on every push, this repository's Check workflow runs the scanner again and compares its report with every row.
 
 ### Skills (hosted import and CI scan)
 
-The demo organisation imports the skills from `https://raw.githubusercontent.com/spellwarden-ai/demo/seed-<n>/fixtures/marketplace/.claude-plugin/marketplace.json`, the marketplace of the seed tag. The hosted import and the CI scan report the same rule ids for each skill. A clean skill has a name, a description, a license, a version and a publisher, and none of the patterns of the other rows.
+The demo organisation imported the first eighteen skills from `https://raw.githubusercontent.com/spellwarden-ai/demo/seed-1/fixtures/marketplace/.claude-plugin/marketplace.json`, the marketplace of the tag `seed-1`, and added the five of `seed-2` one by one from this repository at the tag `seed-2` (importing the marketplace again would give the eighteen a second identity). The hosted import and the CI scan report the same rule ids for each skill. A clean skill has a name, a description, a license, a version and a publisher, and none of the patterns of the other rows.
 
 | Plugin | Skill | What it shows | Rule ids |
 |---|---|---|---|
@@ -47,12 +49,17 @@ The demo organisation imports the skills from `https://raw.githubusercontent.com
 | platform-team | `cache-cleaner` | A bundled script, committed executable (git mode 100755, which GitHub's archive keeps, so the hosted import sees it too), that removes `$TMPDIR/demo-cache` without asking | SW-SKL-006, SW-SKL-010 |
 | platform-team | `quick-installer` | A remote script piped to a shell, from an `.invalid` host; a package installed without a version | SW-SKL-007, SW-SKL-009 |
 | platform-team | `agent-config-tuner` | Tells the agent to edit `.claude/settings.json` and to skip the approval prompts | SW-SKL-003, SW-SKL-005 |
+| platform-team | `shell-helper` | Its frontmatter pre-approves the shell with no scope (`allowed-tools` naming a bare `Bash`) | SW-SKL-036 |
+| platform-team | `release-fetcher` | Downloads the latest release of a tool from an `.invalid` host and runs it with no checksum or signature check | SW-SKL-037 |
+| platform-team | `secure-change-review` | Clean: a security review checklist for code changes, measured in the demo's AppSec 40 eval run | none |
+| platform-team | `mcp-config-review` | Clean: a review checklist for an agent's MCP servers and permissions, measured in the demo's Agent-Sec 40 eval run | none |
 | data-team | `warehouse-query-helper` | Clean | none |
 | data-team | `csv-profiler` | Clean for the engine; a finding reported by hand in the demo says its output can hold personal data | none |
 | data-team | `metrics-dashboard-fetcher` | Reads a web page into the conversation with no list of allowed hosts | SW-SKL-019 |
 | data-team | `notebook-runner` | A script line that decodes an encoded command and runs it (it decodes to `echo demo`); a malicious indicator | SW-SKL-004 |
 | data-team | `credentials-loader` | Reads the cloud credentials file with no stated purpose; a password written into the skill | SW-SKL-011, SW-SKL-012 |
 | data-team | `backup-uploader` | Sends the private SSH key to an outside host (an `.invalid` one); a malicious indicator | SW-SKL-008 |
+| data-team | `migration-safety-check` | Clean: a safety checklist for database migrations and backfills, measured in the demo's Data-Ops 40 eval run | none |
 | support-team | `ticket-summariser` | Clean for the engine; after seeding, the demo organisation's own rule, promoted from a finding reported by hand, fires on it | none |
 | support-team | `customer-reply-drafter` | "Ignore previous instructions" and "without telling the user" in its instructions | SW-SKL-001 |
 | support-team | `faq-lookup` | A zero-width space inside a word of the FAQ | SW-SKL-002 |
@@ -81,8 +88,9 @@ The CI scan reads the configuration files without probing them (the workflow doe
 | File | What it shows | Rule ids (CI scan) |
 |---|---|---|
 | `fixtures/projects/payments-api/.mcp.json` | A server over plain HTTP, a literal bearer key in a header, a package with no version, a literal value under a secret name | SW-CFG-001, SW-CFG-002, SW-CFG-003, SW-CFG-010 |
-| `fixtures/projects/ops-console/.vscode/mcp.json` | A server at a raw IP address (a documentation address) beside a pinned local server | SW-CFG-004 |
+| `fixtures/projects/ops-console/.vscode/mcp.json` | A server at a raw IP address (a documentation address) beside a pinned local server; a pinned local server whose tools that create and cancel dispatches are approved automatically (`alwaysAllow`) | SW-CFG-004, SW-CFG-012 |
 | `fixtures/projects/ops-console/.cursor/mcp.json` | The same in Cursor's file | SW-CFG-004 |
+| `workspaces/cluster-ops/.vscode/mcp.json` | A Kubernetes server, pinned, from an `.invalid` registry, with write access although it has a read-only switch; the rule leaves configurations under a `fixtures` directory quiet, so this file sits outside it | SW-CFG-013 |
 
 ### Claude Code settings and marketplace (CI scan)
 
@@ -115,27 +123,31 @@ The workflow's scan of `main` is the demo's attested default-branch scan. Every 
 
 | Scan | Rule ids |
 |---|---|
-| `repository`: the engine's rules, every run | SW-A2A-002, SW-A2A-003, SW-A2A-004, SW-A2A-005, SW-A2A-006, SW-A2A-007, SW-A2A-008, SW-A2A-012, SW-A2A-014, SW-A2A-015, SW-A2A-017, SW-A2A-019, SW-CFG-001, SW-CFG-002, SW-CFG-003, SW-CFG-004, SW-CFG-005, SW-CFG-006, SW-CFG-007, SW-CFG-008, SW-CFG-009, SW-CFG-010, SW-SKL-001, SW-SKL-002, SW-SKL-003, SW-SKL-004, SW-SKL-005, SW-SKL-006, SW-SKL-007, SW-SKL-008, SW-SKL-009, SW-SKL-010, SW-SKL-011, SW-SKL-012, SW-SKL-013, SW-SKL-014, SW-SKL-015, SW-SKL-019, SW-SKL-031 |
+| `repository`: the engine's rules, every run | SW-A2A-002, SW-A2A-003, SW-A2A-004, SW-A2A-005, SW-A2A-006, SW-A2A-007, SW-A2A-008, SW-A2A-012, SW-A2A-014, SW-A2A-015, SW-A2A-017, SW-A2A-019, SW-CFG-001, SW-CFG-002, SW-CFG-003, SW-CFG-004, SW-CFG-005, SW-CFG-006, SW-CFG-007, SW-CFG-008, SW-CFG-009, SW-CFG-010, SW-CFG-012, SW-CFG-013, SW-SKL-001, SW-SKL-002, SW-SKL-003, SW-SKL-004, SW-SKL-005, SW-SKL-006, SW-SKL-007, SW-SKL-008, SW-SKL-009, SW-SKL-010, SW-SKL-011, SW-SKL-012, SW-SKL-013, SW-SKL-014, SW-SKL-015, SW-SKL-019, SW-SKL-031, SW-SKL-036, SW-SKL-037 |
 | `repository`: the registry gate, in connected mode on `main` (every item in scope) | SW-REG-001, SW-REG-002, SW-REG-003 |
 
 The registry gate's findings do not depend on which clean items the registry admits:
 
 - SW-REG-001: skills with an open critical or high finding, which the registry never admits (for example the backup uploader and the notebook runner).
-- SW-REG-002: the servers of `fixtures/projects/ops-console/`, which the demo organisation never imported, so its registry cannot hold them.
+- SW-REG-002: the servers of `fixtures/projects/ops-console/` and `workspaces/cluster-ops/`, which the demo organisation never imported, so its registry cannot hold them.
 - SW-REG-003: entries the registry cannot judge: the plain HTTP server `legacy-reports`, the unpinned `filesystem` server and the remote plugin with no commit pin.
 
 ### The pull request
 
-The branch `demo/payments-retry-skill` adds one skill, payments-retry, which the demo organisation never imported, so its registry does not admit it. The pull request from that branch stays open: its run leaves the Spellwarden comment on the pull request, and its request scan, which judges only what the pull request changes, carries the registry gate's finding SW-REG-001 for the new skill.
+The branch `demo/payments-retry-skill` adds one skill, payments-retry, which the demo organisation never imported, so its registry does not admit it. The pull request from that branch stays open: its run leaves the Spellwarden comment on the pull request, and its request scan, which judges only what the pull request changes, carries the registry gate's finding SW-REG-001 for the new skill. At `seed-2` the branch was brought up to date with a merge of `main`, so its request scan runs the Action 1.8.1 too.
 
 ### Public servers from the official MCP registry
 
-The demo organisation also holds three to five public servers from the official MCP registry, chosen at seeding and named in [SEED.md](SEED.md). Public servers from the official MCP registry, scanned on the date SEED.md records; their findings are what Spellwarden's checks reported on that date. They were probed once, during seeding, and the demo never contacts them again.
+The demo organisation also holds three to five public servers from the official MCP registry, chosen at seeding and named in [SEED.md](SEED.md). Public servers from the official MCP registry, scanned on the date SEED.md records; their findings are what Spellwarden's checks reported on that date. They are probed once per seeding, and the demo does not contact them between seedings.
 
 ## The workflows
 
-- `.github/workflows/spellwarden.yml` runs the Spellwarden Action (`spellwarden-ai/scan`, pinned to the commit of v1.4.0) on every push to `main`, on pull requests from branches of this repository, and by hand. It uses connected mode into the demo organisation through a CI connection: GitHub's OIDC token, no stored secret. `fail-on: never` keeps the check green while the repository is full of findings on purpose. Pull requests from forks are skipped, and workflow runs of outside contributors need approval.
+- `.github/workflows/spellwarden.yml` runs the Spellwarden Action (`spellwarden-ai/scan`, pinned to the commit of v1.8.1) on every push to `main`, on pull requests from branches of this repository, and by hand. It uses connected mode into the demo organisation through a CI connection: GitHub's OIDC token, no stored secret. `fail-on: never` keeps the check green while the repository is full of findings on purpose. Pull requests from forks are skipped, and workflow runs of outside contributors need approval.
 - `.github/workflows/check.yml` runs `tools/check_repo.py`: at most 2,000 files and 20 MiB, no symbolic links, no names the hosted importer refuses, nothing at the root that Claude Code loads, no provider token shape anywhere, reserved hosts only in the fixtures, the warning on every plugin; then the pinned scanner and a comparison of its report with the rule ids recorded above.
+
+## Runtime data
+
+The demo's Runtime and Sessions pages show synthetic telemetry: traces and logs written by Spellwarden for the fictional company, in the shapes of real agent frameworks, and sent every night through Spellwarden's own ingest at `otel.spellwarden.ai` with a key only the demo holds. They name the demo's own servers and skills, carry made-up prompts and answers, and hold no personal data. None of it is in this repository.
 
 ## Seeding
 

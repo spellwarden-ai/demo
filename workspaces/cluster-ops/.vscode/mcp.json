@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "cluster": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["--registry=https://registry.example.invalid", "-y", "kubernetes-mcp-server@0.0.53"]
+    }
+  }
+}

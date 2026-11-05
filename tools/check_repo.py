@@ -8,8 +8,8 @@
 The shape: at most 2,000 tracked files and 20 MiB, no symbolic links, no name with a backslash or a `.`, `..` or empty
 segment (the hosted importer refuses the whole archive otherwise), and nothing at the root that Claude Code loads
 (`.claude/`, `.mcp.json`, `.claude-plugin/`). The safety: no provider token shape in any file, every URL in the fixtures
-on a reserved or documentation host (or Spellwarden's own demo hosts), and every plugin description starting with the
-warning. One line per failure; exit 1 on any failure, else 0."""
+(`fixtures/` and `workspaces/`) on a reserved or documentation host (or Spellwarden's own demo hosts), and every plugin
+description starting with the warning. One line per failure; exit 1 on any failure, else 0."""
 from __future__ import annotations
 
 import argparse
@@ -26,6 +26,8 @@ MAX_BYTES = 20 * 2**20
 ROOT_LOADED = (".claude", ".mcp.json", ".claude-plugin")
 WARNING = "Demo fixture with deliberate problems. Do not install."
 SKILLS = "fixtures/marketplace/plugins"
+# The fixture directories: `workspaces/` holds the configurations a rule leaves quiet under a `fixtures` directory.
+FIXTURE_DIRS = ("fixtures/", "workspaces/")
 
 # Provider token shapes GitHub push protection and the scanner treat as secrets. Built from parts, so this file holds none.
 TOKEN_SHAPES = tuple(re.compile(pattern) for pattern in (
@@ -107,7 +109,7 @@ def check_shape() -> list[str]:
         for shape in TOKEN_SHAPES:
             if shape.search(text):
                 failures.append(f"{path}: a provider token shape ({shape.pattern[:12]}...)")
-        if path.startswith("fixtures/"):
+        if path.startswith(FIXTURE_DIRS):
             for line_number, line in enumerate(text.splitlines(), start=1):
                 for match in URL.finditer(line):
                     if not host_allowed(match.group(1), match.group(0) + line[match.end():]):
@@ -137,7 +139,7 @@ def recorded(readme: str, skills: list[str]) -> tuple[dict[str, set[str]], dict[
         for name in skills:
             if f"`{name}`" in line:
                 per_skill.setdefault(name, set()).update(ids_on(line, name))
-        match = re.match(r"\|\s*`(fixtures/[^`]+)`\s*\|", line)
+        match = re.match(r"\|\s*`((?:fixtures|workspaces)/[^`]+)`\s*\|", line)
         if match:
             per_file.setdefault(match.group(1), set()).update(ids_on(line, match.group(1)))
         if "`repository`" in line:
