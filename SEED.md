@@ -66,3 +66,62 @@ What `seed.py check` printed before the snapshot.
 - Four scans of the import (the skills csv-profiler and iam-least-privilege-review, the servers inventory and billing-sandbox) ended "The scan did not finish": scans that finished in the same second collided on their last write. Each was rescanned alone and passed before `seed.py check`.
 - The pull request of step 9 is #1, `demo/payments-retry-skill`, left open.
 - The production check of the live demo spec (14.4) passed 11 of 11 after the first reset.
+
+## seed-2
+
+| Field | Value |
+|---|---|
+| Tag | `seed-2` (annotated, GPG-signed) |
+| Commit | `1e06af1` (the pull request branch `demo/payments-retry-skill` merged with it at `5f8056f`) |
+| Seeded on (UTC) | 2026-11-05 |
+| Scan engine | spellwarden 1.8.1, rules `2026.11.1` (the hosted service and the Action) |
+| Action | `spellwarden-ai/scan` v1.8.1, commit `f27614bc85e9418036a2d18173f6e34d7e075b3a` |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261105T191326Z.json.gz` (1,132 items, 385 objects, 4,752,198 bytes) |
+| Runtime | the nightly replay (code `docs/specs/2026-11-03-live-demo-seed-2.md`): synthetic traces written by Spellwarden, sent at 02:45 UTC through `https://otel.spellwarden.ai`; the seeding's own replay ran at 18:12 UTC (slot 0, 29 requests, 105 records, 15 sessions, content on) |
+
+### Public servers from the official MCP registry
+
+The same four as seed-1, probed again once during this seeding (every server was rescanned once, seed-2 step 17).
+
+| Registry name | Migration status | Rule ids | Scanned on |
+|---|---|---|---|
+| `com.microsoft/microsoft-learn-mcp` | to migrate | SW-MCP-001, SW-MCP-005, SW-MCP-006, SW-MCP-007, SW-MCP-008 | 2026-11-05 |
+| `com.cloudflare.mcp/mcp` | to migrate | SW-MCP-001, SW-MCP-005, SW-MCP-007 | 2026-11-05 |
+| `com.notion/mcp` | to migrate | none | 2026-11-05 |
+| `app.linear/linear` | to migrate | none | 2026-11-05 |
+
+### Counts captured
+
+What `seed.py check` printed before the snapshot.
+
+| Count | Expected | Captured |
+|---|---|---|
+| demo_skills | 23 | 23 |
+| infra_pack_skills | 5 | 5 |
+| endpoint_servers | 7 | 7 |
+| stdio_servers | 2 | 2 |
+| registry_servers | 3 to 5 | 4 |
+| memberships_active | 4 | 4 |
+| invitations_pending | 1 | 1 |
+| eval_runs | 6 | 6 |
+| packs | 1 | 1 |
+| pack_exports | 3 | 3 |
+| org_rules_enabled | 1 | 1 |
+| findings_accepted | 1 | 1 |
+| findings_superseded | 1 | 1 |
+| findings_fixed | 1 | 1 |
+| allow_entries | 3 | 3 |
+| eval_exports | 4, none with content | 4 |
+| runtime_sessions | at least 10 a slot | 15 |
+| runtime_slots | 1 on the seeding day | 1 |
+
+### Eval runs
+
+The four runs of seed-2, on Amazon Bedrock, with the owner's go; 1,536,972 tokens together.
+
+| Run | Tokens used |
+|---|---|
+| Session eval run "Support agent sessions, November", 8 sessions sampled | about 18,600 (the platform's month counter, less the three runs below) |
+| Paired run of `appsec-40` on `secure-change-review`, "Secure review skill, November" | 441,472 |
+| Paired run of `agent-sec-40` on `mcp-config-review`, "MCP review skill, November" | 445,603 |
+| Paired run of `data-ops-40` on `migration-safety-check`, "Migration safety skill, November" | 631,291 |
