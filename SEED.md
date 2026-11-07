@@ -125,3 +125,26 @@ The four runs of seed-2, on Amazon Bedrock, with the owner's go; 1,536,972 token
 | Paired run of `appsec-40` on `secure-change-review`, "Secure review skill, November" | 441,472 |
 | Paired run of `agent-sec-40` on `mcp-config-review`, "MCP review skill, November" | 445,603 |
 | Paired run of `data-ops-40` on `migration-safety-check`, "Migration safety skill, November" | 631,291 |
+
+## Engine 1.9.0, 7 November 2026
+
+Not a new seed: the backend moved to engine 1.9.0 (rules `2026.11.2`), which grades `SW-MCP-001` by what the unauthenticated tool list exposes and `SW-MCP-011` by the kind of phrase, and reads a streamed `tools/list` answer whole (it was cut at 4 KiB). The demo organisation was brought onto it without changing its content.
+
+| Field | Value |
+|---|---|
+| Backend | image `631c46226521` (engine 1.9.0), deployed 2026-11-07 |
+| Action | `spellwarden-ai/scan` v1.9.0, commit `f2786a4722eeb550e1af70896c5e6be66af85c8b`; the push of `56fa237` uploaded the default-branch scan by scanner 1.9.0 |
+| Rescan | every skill (28) and MCP server (13) once, as Demo developer, all on rules `2026.11.2` |
+| Check | `seed.py check` passed |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261107T031753Z.json.gz` (1,329 items, 386 objects, 4,753,252 bytes) |
+
+The four public servers, probed once again during the rescan:
+
+| Registry name | Migration status | Open findings (severity) | Scanned on |
+|---|---|---|---|
+| `com.microsoft/microsoft-learn-mcp` | to migrate | SW-MCP-001 (medium: three tools, all read-only), SW-MCP-006, SW-MCP-007, SW-MCP-008, SW-MCP-011 (medium: "Always use this tool", steering only), SW-MCP-005 (low) | 2026-11-07 |
+| `com.cloudflare.mcp/mcp` | to migrate | SW-MCP-001 (medium: two tools, both read-only), SW-MCP-007, SW-MCP-005 (low) | 2026-11-07 |
+| `com.notion/mcp` | to migrate | none | 2026-11-07 |
+| `app.linear/linear` | to migrate | none | 2026-11-07 |
+
+Microsoft Learn's three tools were not seen by 1.8.1 (its streamed answer is about 6 KiB), so its `SW-MCP-011` is new; no finding of any fixture or demo server changed. The skill rows and the repository rows of README.md hold on 1.9.0.
