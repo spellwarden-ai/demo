@@ -148,3 +148,16 @@ The four public servers, probed once again during the rescan:
 | `app.linear/linear` | to migrate | none | 2026-11-07 |
 
 Microsoft Learn's three tools were not seen by 1.8.1 (its streamed answer is about 6 KiB), so its `SW-MCP-011` is new; no finding of any fixture or demo server changed. The skill rows and the repository rows of README.md hold on 1.9.0.
+
+## Engine 1.9.1, 7 November 2026
+
+Not a new seed: the backend moved to engine 1.9.1 (rules `2026.11.3`), which tags each rule with the OWASP MCP Top 10 entry it detects (`SW-MCP-011` MCP03, `SW-REG-002` MCP09, MCP04, MCP06 and MCP07 for others; no rule tagged MCP10). Detection and severities are those of 1.9.0, so no finding changed; a finding stores its tags when it is scanned, so the demo organisation was rescanned and snapshotted again to show the new tags.
+
+| Field | Value |
+|---|---|
+| Backend | image `10f50089ca87` (engine 1.9.1), deployed 2026-11-07 |
+| Action | `spellwarden-ai/scan` v1.9.1, commit `7e637381f826a222344aa44816524cd1905e6cc6`; the push of `aee5ae3` uploaded the default-branch scan by scanner 1.9.1 |
+| Rescan | every skill (28) and MCP server (13) once, as Demo developer, all on rules `2026.11.3` (`seed.py --from 16`); step 24's replay by hand was not run, the night's replay holds |
+| Check | `seed.py check --readme README.md` passed |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261107T161557Z.json.gz` (1,457 items, 386 objects, 4,753,252 bytes) |
+| Reset | schedule off for the rescan and on again; `demo reset --dry-run` and one `demo reset`: 20 items put, 1,437 unchanged, nothing deleted; the visitor sees `SW-MCP-011` as MCP03 |
