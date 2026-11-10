@@ -161,3 +161,18 @@ Not a new seed: the backend moved to engine 1.9.1 (rules `2026.11.3`), which tag
 | Check | `seed.py check --readme README.md` passed |
 | Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261107T161557Z.json.gz` (1,457 items, 386 objects, 4,753,252 bytes) |
 | Reset | schedule off for the rescan and on again; `demo reset --dry-run` and one `demo reset`: 20 items put, 1,437 unchanged, nothing deleted; the visitor sees `SW-MCP-011` as MCP03 |
+
+## Engine 1.11.0, 10 November 2026
+
+Not a new seed: the backend moved to engine 1.11.0 (rules `2026.11.4`), which makes `SW-MCP-011`'s patterns precise (whitespace collapsed, the words that make a tool description an instruction; see the engine CHANGELOG). The demo's own servers keep their findings: `search` (`sync_index`, "do not mention it to the user") and `crm` (`sync_contacts`) still give `SW-MCP-011` at high, and every rule id of README.md holds (`tools/check_repo.py --report` on a 1.11.0 scan). A finding stores its rules version when it is scanned, so the demo organisation was rescanned and snapshotted again.
+
+| Field | Value |
+|---|---|
+| Backend | image `f56677d73211` (engine 1.11.0), deployed 2026-11-10 |
+| Action | `spellwarden-ai/scan` v1.11.0, commit `fa56a1f7fea77397d3ed0257223479418aa26153`; the push of `12d09e1` uploaded the default-branch scan by scanner 1.11.0 |
+| Rescan | every skill (28) and MCP server (13) once, as Demo developer, all on rules `2026.11.4` (`seed.py --from 16`, then `--from 25`); step 24's replay by hand was not run, the night's replay holds |
+| Check | `seed.py check --readme README.md` passed: 23 demo skills, 5 Infra Pack skills, 7 endpoint servers, 2 stdio servers, 4 active memberships, 1 pending invitation, 6 eval runs, 1 pack, 3 pack exports, 1 org rule, findings accepted 1, superseded 1, fixed 1, 3 allow entries, 4 eval exports, 90 runtime sessions in 6 slots, 4 registry servers |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261110T093838Z.json.gz` (1,585 items, 386 objects, 4,753,252 bytes) |
+| Reset | schedule off for the rescan and on again; `demo reset --dry-run` and one `demo reset`: 21 items put, 1,564 unchanged, nothing deleted |
+
+The persona password resets first bounced: for a few minutes that morning the apex MX named Microsoft 365 at priority 0, so the codes went to Microsoft, and SES then suppressed the three persona addresses. They were removed from the account's suppression list once the MX was back to SES at 10 and Microsoft at 20.
