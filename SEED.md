@@ -176,3 +176,14 @@ Not a new seed: the backend moved to engine 1.11.0 (rules `2026.11.4`), which ma
 | Reset | schedule off for the rescan and on again; `demo reset --dry-run` and one `demo reset`: 21 items put, 1,564 unchanged, nothing deleted |
 
 The persona password resets first bounced: for a few minutes that morning the apex MX named Microsoft 365 at priority 0, so the codes went to Microsoft, and SES then suppressed the three persona addresses. They were removed from the account's suppression list once the MX was back to SES at 10 and Microsoft at 20.
+
+## Engine 1.11.1, 10 November 2026
+
+Not a new seed and not a new snapshot: the backend moved to engine 1.11.1 (rules `2026.11.4`, unchanged), which sets TLS 1.2 as the minimum of the CLI's own connections and closes the scanner repository's code scanning alerts. No rule, severity, evidence or fingerprint changed, so the skills and MCP servers were not rescanned.
+
+| Item | Value |
+|---|---|
+| Backend | image `678ea938f87c` (engine 1.11.1), deployed 2026-11-10 (previous `f56677d73211`) |
+| Action | `.github/workflows/spellwarden.yml` pinned to `spellwarden-ai/scan` `b4a6e05` (v1.11.1), commit `3c34629`; its push run uploaded the repository scan by 1.11.1 into DEMO |
+| Check | `tools/check_repo.py --report` on a local 1.11.1 scan of this repository: no problems |
+| Snapshot | unchanged, `demo-snapshot-6dc89b734bdb798bbd33-20261110T093838Z.json.gz`; the nightly reset puts back the repository's 1.11.0 scan, so the next re-seeding (whose step 16 waits for a scan by the manifest's `scanner_version`, now 1.11.1) needs a push run of this workflow before `seed.py check` |
