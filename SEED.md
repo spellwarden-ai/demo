@@ -187,3 +187,16 @@ Not a new seed and not a new snapshot: the backend moved to engine 1.11.1 (rules
 | Action | `.github/workflows/spellwarden.yml` pinned to `spellwarden-ai/scan` `b4a6e05` (v1.11.1), commit `3c34629`; its push run uploaded the repository scan by 1.11.1 into DEMO |
 | Check | `tools/check_repo.py --report` on a local 1.11.1 scan of this repository: no problems |
 | Snapshot | unchanged, `demo-snapshot-6dc89b734bdb798bbd33-20261110T093838Z.json.gz`; the nightly reset puts back the repository's 1.11.0 scan, so the next re-seeding (whose step 16 waits for a scan by the manifest's `scanner_version`, now 1.11.1) needs a push run of this workflow before `seed.py check` |
+
+## Engine 1.12.0, 13 November 2026
+
+Not a new seed: the backend moved to engine 1.12.0 (rules `2026.11.5`), which adds steering and concealment forms to `SW-MCP-011` beside 1.11.1's unchanged patterns (see the engine CHANGELOG). 1.12.0 changes no result here: `search` and `crm` still give `SW-MCP-011` at high and `microsoft-learn-mcp` at medium, as on 1.11.0, and every rule id of README.md holds (`tools/check_repo.py --report` on a 1.12.0 scan). A finding stores its rules version when it is scanned, so the demo organisation was rescanned and snapshotted again.
+
+| Field | Value |
+|---|---|
+| Backend | image `67afe0dce17f` (engine 1.12.0), deployed 2026-11-13 |
+| Action | `spellwarden-ai/scan` v1.12.0, commit `9a593c7512979fdd65b2ecff6f9850f7935f93c0`; the push of `f3bb2e5` uploaded the default-branch scan by scanner 1.12.0 |
+| Rescan | every skill (28) and MCP server (13) once, as Demo developer, all on rules `2026.11.5` (`seed.py --from 16`, then `--from 24.2`); step 24's replay by hand was not run, the night's replay holds |
+| Check | `seed.py check --readme README.md` passed: 23 demo skills, 5 Infra Pack skills, 7 endpoint servers, 2 stdio servers, 4 active memberships, 1 pending invitation, 6 eval runs, 1 pack, 3 pack exports, 1 org rule, findings accepted 1, superseded 1, fixed 1, 3 allow entries, 4 eval exports, 105 runtime sessions in 7 slots, 4 registry servers |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261113T203708Z.json.gz` (1,713 items, 386 objects, 4,753,252 bytes) |
+| Reset | schedule off for the rescan and on again; `demo reset --dry-run` and one `demo reset`: 22 items put, 1,691 unchanged, nothing deleted |
