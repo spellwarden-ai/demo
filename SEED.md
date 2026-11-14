@@ -200,3 +200,16 @@ Not a new seed: the backend moved to engine 1.12.0 (rules `2026.11.5`), which ad
 | Check | `seed.py check --readme README.md` passed: 23 demo skills, 5 Infra Pack skills, 7 endpoint servers, 2 stdio servers, 4 active memberships, 1 pending invitation, 6 eval runs, 1 pack, 3 pack exports, 1 org rule, findings accepted 1, superseded 1, fixed 1, 3 allow entries, 4 eval exports, 105 runtime sessions in 7 slots, 4 registry servers |
 | Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261113T203708Z.json.gz` (1,713 items, 386 objects, 4,753,252 bytes) |
 | Reset | schedule off for the rescan and on again; `demo reset --dry-run` and one `demo reset`: 22 items put, 1,691 unchanged, nothing deleted |
+
+## Engine 1.13.0, 14 November 2026
+
+Not a new seed: the backend moved to engine 1.13.0 (rules `2026.11.6`), which adds MITRE ATLAS and OWASP Agentic Skills tags to every finding, renames `SW-MCP-011` to "MCP server text contains instruction-like text", reads a probed server's prompts, resources, templates and instructions, and scans instruction files (`AGENTS.md`, `CLAUDE.md` and the Cursor, Windsurf, Copilot and Gemini files), of which this repository has none (see the engine CHANGELOG). 1.13.0 changes no result here: `search` and `crm` still give `SW-MCP-011` at high and `microsoft-learn-mcp` at medium, every server keeps its status and counts, and every rule id of README.md holds.
+
+| Field | Value |
+|---|---|
+| Backend | image `edf883238ae4` (engine 1.13.0), deployed 2026-11-14 |
+| Action | `spellwarden-ai/scan` v1.13.0, commit `b4718b3698d07cbe1dd6f85a7aab8263a91c2486`; the push of `dac6575` uploaded the default-branch scan by scanner 1.13.0 |
+| Rescan | every skill (28) and MCP server (13) once, as Demo developer, all on rules `2026.11.6` (`seed.py --from 16`, then `--from 24.2`); step 24's replay by hand was not run, the night's replay holds |
+| Check | `seed.py check --readme README.md` passed: 23 demo skills, 5 Infra Pack skills, 7 endpoint servers, 2 stdio servers, 4 active memberships, 1 pending invitation, 6 eval runs, 1 pack, 3 pack exports, 1 org rule, findings accepted 1, superseded 1, fixed 1, 3 allow entries, 4 eval exports, 105 runtime sessions in 7 slots, 4 registry servers |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261114T130833Z.json.gz` (1,830 items, 388 objects, 4,755,296 bytes), made current with `demo use-snapshot` |
+| Reset | schedule off for the rescan (with the contract 15 apply) and on again; `demo reset --dry-run` and one `demo reset`: 23 items put, 1,807 unchanged, nothing deleted |
