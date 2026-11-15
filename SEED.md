@@ -213,3 +213,17 @@ Not a new seed: the backend moved to engine 1.13.0 (rules `2026.11.6`), which ad
 | Check | `seed.py check --readme README.md` passed: 23 demo skills, 5 Infra Pack skills, 7 endpoint servers, 2 stdio servers, 4 active memberships, 1 pending invitation, 6 eval runs, 1 pack, 3 pack exports, 1 org rule, findings accepted 1, superseded 1, fixed 1, 3 allow entries, 4 eval exports, 105 runtime sessions in 7 slots, 4 registry servers |
 | Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261114T130833Z.json.gz` (1,830 items, 388 objects, 4,755,296 bytes), made current with `demo use-snapshot` |
 | Reset | schedule off for the rescan (with the contract 15 apply) and on again; `demo reset --dry-run` and one `demo reset`: 23 items put, 1,807 unchanged, nothing deleted |
+
+## Engine 1.14.0, 15 November 2026
+
+Not a new seed: the backend moved to engine 1.14.0 (rules `2026.11.6`, unchanged), which adds the machine-wide scan (`spellwarden scan --user`, `--inventory`) and the CycloneDX output format (see the engine CHANGELOG). No rule, severity, evidence or fingerprint changed, so the skills and MCP servers were not rescanned (step 17 skipped). This repository's own CycloneDX export, downloaded from the 1.14.0 workflow run, validates against CycloneDX schema 1.7.2.
+
+| Field | Value |
+|---|---|
+| Backend | image `88ba75e002f2` (engine 1.14.0), dash `a7d3d8e49269`, deployed 2026-11-15 |
+| Action | `spellwarden-ai/scan` v1.14.0, commit `28daf485398b203abab272f44547388734676b37`; the push of `6e71f19` uploaded the default-branch scan by scanner 1.14.0 |
+| Replay | `demo replay --dry-run`, then `demo replay` at 03:02 UTC (slot 3: 29 requests, 105 records, 15 sessions), then `seed.py --from 24.2`; steps 25 and 26 were already done and skipped, so no eval run was started |
+| Check | `seed.py check --readme README.md` passed before and after the reset: 23 demo skills, 5 Infra Pack skills, 7 endpoint servers, 2 stdio servers, 4 active memberships, 1 pending invitation, 6 eval runs, 1 pack, 3 pack exports, 1 org rule, findings accepted 1, superseded 1, fixed 1, 3 allow entries, 4 eval exports, 105 runtime sessions in 7 slots, 4 registry servers |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261115T033454Z.json.gz` (1,831 items, 388 objects, 4,755,296 bytes), made current with `demo use-snapshot` |
+| Refusal check | an ingest key "Refusal check" made by Demo owner sent one span to `https://otel.spellwarden.ai/v1/traces` and got `403` "This organisation cannot receive telemetry."; the key was revoked |
+| Reset | schedule off for the re-seeding (with the contract 16 apply) and on again; `demo reset --dry-run` and one `demo reset`: 25 items put, 3 deleted, 1,806 unchanged |
