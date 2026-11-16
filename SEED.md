@@ -243,3 +243,19 @@ Not a new seed: the backend moved to engine 1.15.0 (rules `2026.11.7`), which ad
 | Refusal check | an ingest key "Refusal check" made by Demo owner sent one span to `https://otel.spellwarden.ai/v1/traces` and got `403` "This organisation cannot receive telemetry."; the key was revoked |
 | Reset | schedule off for the re-seeding and on again; `demo reset --dry-run` and one `demo reset`: 26 items put, 3 deleted, 1,929 unchanged; the visitor session answers 200 |
 | Replay key | rotated after the snapshot (`7ba968de0cdc`; `7565eeff50c3` revoked) |
+
+## Engine 1.16.0, 16 November 2026
+
+Not a new seed: the backend moved to engine 1.16.0 (rules `2026.11.7`, unchanged), which changes only the machine-wide scan (the workstation upload's outcome in every report, VS Code's user and profile `mcp.json`; see the engine CHANGELOG). No fixture's rule ids changed: this repository's Check workflow passed on 1.16.0 for `f91c7a7`. With the rules version unchanged, step 17 had nothing to rescan.
+
+| Field | Value |
+|---|---|
+| Backend | image `3261c81b11da` (engine 1.16.0), dash `a0a06a9f3767`, deployed 2026-11-16 |
+| Action | `spellwarden-ai/scan` v1.16.0, commit `9f2b0c1c09d36605086814f79a41ab6cf806b8a9`; the push of `f91c7a7` uploaded the default-branch scan by scanner 1.16.0 |
+| Rescan | `seed.py --from 16`: step 16 saw the scans by 1.16.0; steps 17 to 23 were already done and skipped |
+| Replay | `demo replay --dry-run`, then `demo replay` at 08:41 UTC (slot 4, 105 records, 15 sessions), then `seed.py --from 24.2 --timeout 3000`; steps 25 and 26 were already done and skipped, so no eval run was started |
+| Check | `seed.py check --readme README.md` passed before and after the reset: 23 demo skills, 5 Infra Pack skills, 7 endpoint servers, 2 stdio servers, 4 active memberships, 1 pending invitation, 6 eval runs, 1 pack, 3 pack exports, 1 org rule, findings accepted 1, superseded 1, fixed 1, 3 allow entries, 4 eval exports, 105 runtime sessions in 7 slots, 4 registry servers |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261116T084239Z.json.gz` (1,958 items, 394 objects, 4,766,340 bytes), the current pointer |
+| Refusal check | an ingest key "Refusal check" made by Demo owner sent one span to `https://otel.spellwarden.ai/v1/traces` and got `403` "This organisation cannot receive telemetry."; the key was revoked |
+| Reset | schedule off for the re-seeding (with the contract 17 deploy) and on again; `demo reset --dry-run` and one `demo reset`: 29 items put, 3 deleted, 1,929 unchanged; the visitor session answers 200 |
+| Replay key | rotated after the snapshot (`2e1ccaf2bbb6`; `7ba968de0cdc` revoked) |
