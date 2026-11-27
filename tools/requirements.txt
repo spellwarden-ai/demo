@@ -1,7 +1,7 @@
-# The scanner for tools/check_repo.py --report: the hash-pinned set of spellwarden-ai/scan v1.26.0 (its requirements.txt,
-# written by spellwarden-ai/spellwarden scripts/release-wrappers.py for 1.26.0), the version the backend runs.
-spellwarden==1.26.0 \
-    --hash=sha256:17b06462fa194940b6241eaf88a7823ac1b8ad1ad0462bfc755e7c809a7bdeb3
+# The scanner for tools/check_repo.py --report: the hash-pinned set of spellwarden-ai/scan v1.27.0 (its requirements.txt,
+# written by spellwarden-ai/spellwarden scripts/release-wrappers.py for 1.27.0), the version the backend runs.
+spellwarden==1.27.0 \
+    --hash=sha256:4599bd812b8cda70b50c99587cd7c63bd3f6327a9bff0b543d8a230cec25740a
 cffi==2.1.1 ; platform_python_implementation != 'PyPy' \
     --hash=sha256:046bfc24911b37851ee1b51aab8bffe713d89c68c6a057b09484ce9fd5f69b4e \
     --hash=sha256:06c72bb76605a4b0cd0aad6930b69d4baf7dd5d806cfc409b824191099700e66 \
