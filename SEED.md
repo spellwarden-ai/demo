@@ -275,3 +275,20 @@ Not a new seed: the backend moved to engine 1.24.0 (rules `2026.11.9`, 66 rules;
 | Refusal check | an ingest key "Refusal check" made by Demo owner sent one span to `https://otel.spellwarden.ai/v1/traces` and got `403` "This organisation cannot receive telemetry."; the key was revoked |
 | Reset | schedule off for the re-seeding and on again; the first `demo reset --dry-run` right after the apply answered `snapshot_invalid` (the reset's role policy had just been rewritten), the second passed; one `demo reset`: 32 items put, 3 deleted, 2,052 unchanged; the visitor session answers 200 |
 | Replay key | rotated after the snapshot (`2e4230afdc44`; `2e1ccaf2bbb6` revoked) |
+
+## Engine 1.25.0 and the preview of every feature, 27 November 2026
+
+The backend moved to engine 1.25.0 (rules `2026.11.10`, 68 rules), and the demo now shows every page of the left bar to the visitor (code `docs/specs/2026-11-27-demo-all-features.md`). The new fixture `workspaces/notes-desk/.vscode/mcp.json` gives a filesystem server the home directory (SW-CFG-015); README.md records it, and a local scan by 1.25.0 matched every row.
+
+| Field | Value |
+|---|---|
+| Backend | image `8f112531ec14` (engine 1.25.0, the read exception for the demo's Viewer, the alert sink), dash `32dea600d19e`, deployed 2026-11-27 |
+| Action | `spellwarden-ai/scan` v1.25.0, commit `f609334a446e7efb0478e10ae607fa51efaa50c1`; the push of `4f52993` uploaded the default-branch scan by scanner 1.25.0 |
+| Rescan | `seed.py --from 16`: step 16 saw the scans by 1.25.0; step 17 rescanned every skill and server; steps 18 to 23 were already done and skipped |
+| Replay | `demo replay --dry-run`, then `demo replay` at 13:22 UTC, then `seed.py --from 24.2 --timeout 3000`; steps 25 and 26 were already done and skipped, so no eval run was started |
+| Preview (step 27) | two alert destinations to `https://demo-mcp.spellwarden.ai/alert-sink` with a test message each; three export destinations labelled `Sample:`; three workstation inventories from scanner 1.25.0 on the prepared home folders, read whole, with the key "Demo workstation seeding" revoked in the same step; `demo sample-rows` (1 connection, 6 assets, 2 services, 3 destination checks); one catalog skill installed and one collection followed by Demo developer |
+| Check | `seed.py check --readme README.md` passed as the owner and as the visitor (seven routes, every audit page): 23 demo skills, 5 Infra Pack skills, 7 endpoint servers, 2 stdio servers, 4 active memberships, 1 pending invitation, 6 eval runs, 1 pack, 3 pack exports, 1 org rule, findings accepted 1, superseded 1, fixed 1, 3 allow entries, 4 eval exports, 105 runtime sessions in 7 slots, 2 alert destinations, 3 export destinations, 3 workstations, 1 DevOps Agent connection, 0 active API keys, 1 catalog install, 1 catalog subscription, 4 registry servers. The first visitor check failed on the last group of the sample Foundry ids, which the account pattern took for an AWS account; the pattern was fixed (code `9f8b200f`, `55b1dffb`) before the check passed |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261127T142101Z.json.gz` (2,257 items, 395 objects, 8,091,161 bytes), the current pointer |
+| Refusal check | an ingest key "Refusal check" made by Demo owner sent one span to `https://otel.spellwarden.ai/v1/traces` and got `403` "This organisation cannot receive telemetry."; the key was revoked |
+| Reset | schedule off for the re-seeding and on again; `demo reset --dry-run` and one `demo reset`: 43 items put, 3 deleted, 2,214 unchanged; the visitor reads all 13 main and 14 settings pages |
+| Replay key | rotated after the snapshot (`474f565156e4`; `2e4230afdc44` revoked) |
