@@ -292,3 +292,18 @@ The backend moved to engine 1.25.0 (rules `2026.11.10`, 68 rules), and the demo 
 | Refusal check | an ingest key "Refusal check" made by Demo owner sent one span to `https://otel.spellwarden.ai/v1/traces` and got `403` "This organisation cannot receive telemetry."; the key was revoked |
 | Reset | schedule off for the re-seeding and on again; `demo reset --dry-run` and one `demo reset`: 43 items put, 3 deleted, 2,214 unchanged; the visitor reads all 13 main and 14 settings pages |
 | Replay key | rotated after the snapshot (`474f565156e4`; `2e4230afdc44` revoked) |
+
+## Engine 1.26.0, 27 November 2026
+
+Not a new seed: the backend moved to engine 1.26.0 (rules `2026.11.10`, 68 rules, unchanged from 1.25.0; the release changes only the scanner's Markdown report). No fixture's rule ids changed: a local scan by 1.26.0 matched every row of README.md, and this repository's Check workflow passed on 1.26.0 for `189762f`. With the rules version unchanged, step 17 had nothing to rescan.
+
+| Field | Value |
+|---|---|
+| Backend | image `4a5cc2594c51` (engine 1.26.0), dash `1b51167ac9ca`, deployed 2026-11-27 |
+| Action | `spellwarden-ai/scan` v1.26.0, commit `c75a177e803dce58b9df9f7705e324128b89c5d3`; the push of `189762f` uploaded the default-branch scan by scanner 1.26.0 |
+| Reset | schedule off for the re-seeding and on again; `demo reset --dry-run` and one `demo reset`: 46 items put, 0 deleted, 2,217 unchanged; the visitor session answers 200 |
+| Rescan | `seed.py --from 16`: step 16 saw the scans by 1.26.0 (2 request scans); steps 18 to 23 were already done and skipped |
+| Replay | `demo replay --dry-run`, then `demo replay` at 16:07 UTC (105 records, 15 sessions), then `seed.py --from 24.2 --timeout 3000`: 10 of 8 sessions eligible; steps 25 and 26 were already done and skipped, so no eval run was started |
+| Preview | steps 27.1 to 27.7 already done; 27.8 checked the 3 devices again (read whole, nothing outside the fixtures' lists); 27.9 `demo sample-rows` asked for a typed confirmation and was not run, its rows were already there (1 DevOps Agent connection, 3 export destinations) |
+| Check | `seed.py check --readme README.md` passed (registry servers 4, catalog installs 1, subscriptions 1, workstations 3, export destinations 3, live API keys 0, among the spec 10.3 counts) |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261127T164012Z.json.gz` (2,263 items, 395 objects, 8,091,161 bytes), the current pointer; the local file was shredded |
