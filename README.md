@@ -23,9 +23,9 @@ SEED.md                    the seed record: tag, date, the public registry serve
 LICENSE                    Apache-2.0
 .github/workflows/         spellwarden.yml (the scan in connected mode) and check.yml (this repository's own checks)
 .spellwarden/config.yml    the settings of the scan: never fail, no probe, no telemetry; no baseline, nothing suppressed
-tools/                     check_repo.py, and requirements.txt: the hash-pinned scanner 1.8.1 it runs
+tools/                     check_repo.py, and requirements.txt: the hash-pinned scanner 1.27.0 it runs
 fixtures/
-  marketplace/             a Claude Code marketplace of three local plugins and twenty-three skills (hosted import and CI)
+  marketplace/             a Claude Code marketplace of three local plugins and twenty-four skills (hosted import and CI)
   projects/payments-api/   .mcp.json (hosted MCP import and CI) and .claude/settings.json (CI)
   projects/ops-console/    .vscode/mcp.json, .cursor/mcp.json and a second marketplace with a remote plugin (CI)
   agents/                  eleven A2A agent cards (CI)
@@ -35,7 +35,7 @@ workspaces/
 
 ## The fixtures and the rule ids recorded for them
 
-The rule ids below are what Spellwarden's scan engine 1.8.1, the version the hosted service runs, reported for each fixture at `seed-2` (the fixtures of `seed-1` were recorded with 1.4.0 and give the same rule ids on 1.8.1); they were recorded from the engine's output, not from intentions. Before a snapshot of the demo is taken, the seed check compares the demo organisation's findings with these lines (the skill rows and the two rows of the repository scan); on every push, this repository's Check workflow runs the scanner again and compares its report with every row.
+The rule ids below are what Spellwarden's scan engine 1.8.1 reported for each fixture at `seed-2`, and 1.9.0, 1.9.1, 1.11.0, 1.11.1, 1.12.0, 1.13.0, 1.14.0, 1.15.0, 1.16.0 and every release from 1.17.0 to 1.27.0, the version the hosted service runs since 27 November 2026 (1.9.1 changed only OWASP tags, 1.11.0 made SW-MCP-011's patterns precise, 1.11.1 changed no result, 1.12.0 added SW-MCP-011 forms that no fixture here matches, 1.13.0 added framework tags, renamed SW-MCP-011 and reads instruction files, of which this repository has none, 1.14.0 added the machine-wide scan and the CycloneDX format and changed no rule, 1.15.0 added SW-MCP-012, which only the hosted service raises when a probed server's tools change, and changed no other rule, 1.16.0 changed only the machine-wide scan and changed no rule; from 1.17.0 to 1.24.0 this repository's Check workflow, and a local scan by 1.24.0 on 25 November 2026, found every row below unchanged; 1.25.0 added SW-CFG-015 and SW-MCP-013 and, on 27 November 2026, a local scan by 1.25.0 found every earlier row unchanged, and the row of `workspaces/notes-desk/.vscode/mcp.json` was added for SW-CFG-015, and 1.26.0 changed no rule: on 27 November 2026 a local scan by 1.26.0 matched every row; 1.27.0 reports SW-SKL-010 on binary content only, so a readable script committed executable is no longer reported for being executable, and a skill added at `seed-3` with a stand-in binary keeps the rule in the demo; on 27 November 2026 a local scan by 1.27.0 matched every row), report the same (the fixtures of `seed-1` were recorded with 1.4.0 and give the same rule ids on 1.8.1, 1.9.0, 1.9.1, 1.11.0, 1.11.1, 1.12.0, 1.13.0, 1.14.0, 1.15.0, 1.16.0 and 1.24.0); they were recorded from the engine's output, not from intentions. Before a snapshot of the demo is taken, the seed check compares the demo organisation's findings with these lines (the skill rows and the two rows of the repository scan); on every push, this repository's Check workflow runs the scanner again and compares its report with every row.
 
 ### Skills (hosted import and CI scan)
 
@@ -46,7 +46,8 @@ The demo organisation imported the first eighteen skills from `https://raw.githu
 | platform-team | `terraform-plan-checklist` | Clean: license, version, `allowed-hosts`, and the user's confirmation before every destructive command | none |
 | platform-team | `kubernetes-rollout-notes` | Clean | none |
 | platform-team | `release-notes-writer` | Clean | none |
-| platform-team | `cache-cleaner` | A bundled script, committed executable (git mode 100755, which GitHub's archive keeps, so the hosted import sees it too), that removes `$TMPDIR/demo-cache` without asking | SW-SKL-006, SW-SKL-010 |
+| platform-team | `cache-cleaner` | A bundled script, committed executable (git mode 100755, which GitHub's archive keeps, so the hosted import sees it too), that removes `$TMPDIR/demo-cache` without asking. Since scanner 1.27.0 a readable script is not reported for being executable | SW-SKL-006 |
+| platform-team | `image-thumbnailer` | A compiled program, `bin/thumbnail`, shipped without source or checksum (a 64-byte stand-in that starts like a Linux program), added at `seed-3` | SW-SKL-010 |
 | platform-team | `quick-installer` | A remote script piped to a shell, from an `.invalid` host; a package installed without a version | SW-SKL-007, SW-SKL-009 |
 | platform-team | `agent-config-tuner` | Tells the agent to edit `.claude/settings.json` and to skip the approval prompts | SW-SKL-003, SW-SKL-005 |
 | platform-team | `shell-helper` | Its frontmatter pre-approves the shell with no scope (`allowed-tools` naming a bare `Bash`) | SW-SKL-036 |
@@ -91,6 +92,7 @@ The CI scan reads the configuration files without probing them (the workflow doe
 | `fixtures/projects/ops-console/.vscode/mcp.json` | A server at a raw IP address (a documentation address) beside a pinned local server; a pinned local server whose tools that create and cancel dispatches are approved automatically (`alwaysAllow`) | SW-CFG-004, SW-CFG-012 |
 | `fixtures/projects/ops-console/.cursor/mcp.json` | The same in Cursor's file | SW-CFG-004 |
 | `workspaces/cluster-ops/.vscode/mcp.json` | A Kubernetes server, pinned, from an `.invalid` registry, with write access although it has a read-only switch; the rule leaves configurations under a `fixtures` directory quiet, so this file sits outside it | SW-CFG-013 |
+| `workspaces/notes-desk/.vscode/mcp.json` | A filesystem server, pinned, given the whole home directory (`~`); added with scanner 1.25.0, which brought the rule, and kept outside `fixtures` like the file above | SW-CFG-015 |
 
 ### Claude Code settings and marketplace (CI scan)
 
@@ -123,7 +125,7 @@ The workflow's scan of `main` is the demo's attested default-branch scan. Every 
 
 | Scan | Rule ids |
 |---|---|
-| `repository`: the engine's rules, every run | SW-A2A-002, SW-A2A-003, SW-A2A-004, SW-A2A-005, SW-A2A-006, SW-A2A-007, SW-A2A-008, SW-A2A-012, SW-A2A-014, SW-A2A-015, SW-A2A-017, SW-A2A-019, SW-CFG-001, SW-CFG-002, SW-CFG-003, SW-CFG-004, SW-CFG-005, SW-CFG-006, SW-CFG-007, SW-CFG-008, SW-CFG-009, SW-CFG-010, SW-CFG-012, SW-CFG-013, SW-SKL-001, SW-SKL-002, SW-SKL-003, SW-SKL-004, SW-SKL-005, SW-SKL-006, SW-SKL-007, SW-SKL-008, SW-SKL-009, SW-SKL-010, SW-SKL-011, SW-SKL-012, SW-SKL-013, SW-SKL-014, SW-SKL-015, SW-SKL-019, SW-SKL-031, SW-SKL-036, SW-SKL-037 |
+| `repository`: the engine's rules, every run | SW-A2A-002, SW-A2A-003, SW-A2A-004, SW-A2A-005, SW-A2A-006, SW-A2A-007, SW-A2A-008, SW-A2A-012, SW-A2A-014, SW-A2A-015, SW-A2A-017, SW-A2A-019, SW-CFG-001, SW-CFG-002, SW-CFG-003, SW-CFG-004, SW-CFG-005, SW-CFG-006, SW-CFG-007, SW-CFG-008, SW-CFG-009, SW-CFG-010, SW-CFG-012, SW-CFG-013, SW-CFG-015, SW-SKL-001, SW-SKL-002, SW-SKL-003, SW-SKL-004, SW-SKL-005, SW-SKL-006, SW-SKL-007, SW-SKL-008, SW-SKL-009, SW-SKL-010, SW-SKL-011, SW-SKL-012, SW-SKL-013, SW-SKL-014, SW-SKL-015, SW-SKL-019, SW-SKL-031, SW-SKL-036, SW-SKL-037 |
 | `repository`: the registry gate, in connected mode on `main` (every item in scope) | SW-REG-001, SW-REG-002, SW-REG-003 |
 
 The registry gate's findings do not depend on which clean items the registry admits:
@@ -142,7 +144,7 @@ The demo organisation also holds three to five public servers from the official 
 
 ## The workflows
 
-- `.github/workflows/spellwarden.yml` runs the Spellwarden Action (`spellwarden-ai/scan`, pinned to the commit of v1.8.1) on every push to `main`, on pull requests from branches of this repository, and by hand. It uses connected mode into the demo organisation through a CI connection: GitHub's OIDC token, no stored secret. `fail-on: never` keeps the check green while the repository is full of findings on purpose. Pull requests from forks are skipped, and workflow runs of outside contributors need approval.
+- `.github/workflows/spellwarden.yml` runs the Spellwarden Action (`spellwarden-ai/scan`, pinned to the commit of v1.27.0) on every push to `main`, on pull requests from branches of this repository, and by hand. It uses connected mode into the demo organisation through a CI connection: GitHub's OIDC token, no stored secret. `fail-on: never` keeps the check green while the repository is full of findings on purpose. Pull requests from forks are skipped, and workflow runs of outside contributors need approval.
 - `.github/workflows/check.yml` runs `tools/check_repo.py`: at most 2,000 files and 20 MiB, no symbolic links, no names the hosted importer refuses, nothing at the root that Claude Code loads, no provider token shape anywhere, reserved hosts only in the fixtures, the warning on every plugin; then the pinned scanner and a comparison of its report with the rule ids recorded above.
 
 ## Runtime data

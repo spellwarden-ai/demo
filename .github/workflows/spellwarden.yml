@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: spellwarden-ai/scan@f27614bc85e9418036a2d18173f6e34d7e075b3a  # v1.8.1
+      - uses: spellwarden-ai/scan@55c03fb303f5a4248ff318717c900baf4d235c68  # v1.27.0
         with:
           org: demo
           default-branch: main
