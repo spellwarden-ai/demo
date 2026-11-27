@@ -307,3 +307,20 @@ Not a new seed: the backend moved to engine 1.26.0 (rules `2026.11.10`, 68 rules
 | Preview | steps 27.1 to 27.7 already done; 27.8 checked the 3 devices again (read whole, nothing outside the fixtures' lists); 27.9 `demo sample-rows` asked for a typed confirmation and was not run, its rows were already there (1 DevOps Agent connection, 3 export destinations) |
 | Check | `seed.py check --readme README.md` passed (registry servers 4, catalog installs 1, subscriptions 1, workstations 3, export destinations 3, live API keys 0, among the spec 10.3 counts) |
 | Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261127T164012Z.json.gz` (2,263 items, 395 objects, 8,091,161 bytes), the current pointer; the local file was shredded |
+
+## Engine 1.27.0 and seed-3, 27 November 2026
+
+A new tag, `seed-3` (signed, on `d52174e`): the skill `image-thumbnailer` with a stand-in binary, `bin/thumbnail` (64 bytes that start with the ELF magic number, mode 100644, no extension), so the demo keeps an SW-SKL-010 finding. Engine 1.27.0 (rules `2026.11.11`, 68 rules) reports SW-SKL-010 on binary content only: `cache-cleaner`'s executable script is read as a script and no longer reported for being executable, so its row records SW-SKL-006 alone. `seed-1` and `seed-2` were not moved. A local scan by 1.27.0 matched every row of README.md, and this repository's Check workflow passed for `d52174e`.
+
+| Field | Value |
+|---|---|
+| Backend | image `58fbb3fe3053` (engine 1.27.0), dash `da6b0b8b5b81`, deployed 2026-11-27 |
+| Action | `spellwarden-ai/scan` v1.27.0, commit `55c03fb303f5a4248ff318717c900baf4d235c68`; the push of `d52174e` and the merge of main into `demo/payments-retry-skill` (`27f32ef`) uploaded scans by scanner 1.27.0 |
+| Reset | schedule off for the re-seeding and on again; `demo reset --dry-run` and one `demo reset`: 63 items put, 4 deleted, 2,351 unchanged |
+| Rescan | `seed.py --from 16`: step 16 saw the scans by 1.27.0 (3 request scans); step 17 rescanned every skill and server on `2026.11.11`; 18.3 added `image-thumbnailer` by git source at `seed-3`; the other steps to 23 were already done and skipped |
+| Replay | `demo replay --dry-run`, then `demo replay` at 20:43 UTC, then `seed.py --from 24.2 --timeout 3000`: 8 of 8 sessions eligible; steps 25 and 26 were already done and skipped, so no eval run was started |
+| Preview | steps 27.1 to 27.7 already done; 27.8 checked the 3 devices again (read whole, nothing outside the fixtures' lists); 27.9 `demo sample-rows --yes` wrote nothing (its rows were there) |
+| Check | `seed.py check --readme README.md` passed (24 demo skills, 5 Infra Pack skills); as the visitor, `image-thumbnailer` shows SW-SKL-010 open and `cache-cleaner` SW-SKL-006 open |
+| Snapshot | `demo/6dc89b734bdb798bbd33/snapshots/demo-snapshot-6dc89b734bdb798bbd33-20261127T211656Z.json.gz` (2,414 items, 396 objects, 8,174,543 bytes), the current pointer; the local file was shredded |
+| Refusal check | an ingest key "Refusal check" made by Demo owner sent one span to `https://otel.spellwarden.ai/v1/traces` and got `403` "This organisation cannot receive telemetry."; the key was revoked |
+| Replay key | rotated after the snapshot (`9e5975568ccf`; `474f565156e4` revoked) |
